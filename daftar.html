@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Daftar  FitZone</title>
+</head>
+<body class="bg-zinc-950 text-white font-sans">
+    <header class="flex justify-between items-center px-6 py-4 bg-zinc-900">
+     <a href="index.html" class="text-xl font-bold">Fit<span class="text-green-400">Zone</span></a>
+     <a href="index.html" class="text-sm text-gray-400 hover:text-green-400"> Kembali</a>
+    </header>
+<section class="max-w-md mx-auto px-6 py-12">
+      <h2 class="text-2xl font-extrabold text-center">Form <span class="text-green-400">Join Now</span></h2>
+      <p class="text-sm text-gray-400 text-center mt-2 mb-6">Isi data di bawah buat jadi member.</p>
+      <form id="formDaftar" class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 space-y-4">
+      <div>
+        <label class="text-sm">Nama Lengkap</label>
+        <input id="nama" type="text" placeholder="cth: Shofy" class="mt-1 w-full bg-zinc-800 p-2.5 rounded-lg text-sm outline-none focus:border-green-400 border border-zinc-700"></div>
+      <div>
+        <label class="text-sm">No WA</label>
+        <input id="wa" type="number" placeholder="08..." class="mt-1 w-full bg-zinc-800 p-2.5 rounded-lg text-sm outline-none focus:border-green-400 border border-zinc-700"></div>
+      <div>
+        <label class="text-sm">Pilih Paket</label>
+        <select id="paket" class="mt-1 w-full bg-zinc-800 p-2.5 rounded-lg text-sm outline-none border border-zinc-700">
+            <option>Harian - 25K</option>
+            <option selected>Bulanan - 150K</option>
+            <option>Tahunan - 1200K</option>
+        </select>
+     </div>
+      <div>
+        <label class="text-sm">Program</label>
+        <select id="program" class="mt-1 w-full bg-zinc-800 p-2.5 rounded-lg text-sm outline-none border border-zinc-700">
+            <option>Fat Burn</option>
+            <option>Body Building</option>
+            <option>Crossfit</option>
+            <option>Zumba Class</option>
+            <option>Yoga Flow</option>
+            <option>Personal Coach</option>
+        </select>
+    </div>
+<button class="w-full bg-green-400 text-black font-bold py-2.5 rounded-lg text-sm hover:opacity-90">Daftar Sekarang</button>
+     <p id="msg" class="text-sm text-center text-green-400"></p>
+     </form>
+</section>
+      <script src="script.js"></script>
+      <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>
