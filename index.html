@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FitZone - Fitness Center di Medan. Info program latihan, trainer, jadwal kelas, membership, dan kalkulator BMI.">
+<title>FitZone - Fitness Center Medan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { biru:'#2563eb','biru tua':'#1d4ed8',Abu:'#6b7280' },
+        fontFamily:{ sans:['Inter','Arial','sans-serif'] }
+      }
+    }
+  }
+</script>
+<script>
+  (function () {
+    var tersimpan = localStorage.getItem('tema');
+    if (tersimpan === 'gelap') { document.documentElement.classList.add('mode-gelap'); }
+    else if (tersimpan === 'terang') { document.documentElement.classList.remove('mode-gelap'); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { document.documentElement.classList.add('mode-gelap'); }
+  })();
+</script>
+<script>
+  (function(){
+    var orig = Document.prototype.addEventListener;
+    Document.prototype.addEventListener = function(type, listener){
+      if(type==='DOMContentLoaded'){
+        var wrapped = function(){
+          var safe = function(n, el){
+            try{ if(typeof window[n]==='function' && (!el || document.getElementById(el) || document.querySelector(el))) window[n](); }catch(e){}
+          };
+          try{ window.menuMobile && window.menuMobile(); }catch(e){}
+          try{ window.gantiTema && window.gantiTema(); }catch(e){}
+          try{ if(document.getElementById('barProgres')) window.scrollHalaman && window.scrollHalaman(); }catch(e){}
+          try{ window.animasiAngka && window.animasiAngka(); }catch(e){}
+          try{ window.animasiScroll && window.animasiScroll(); }catch(e){}
+          if(document.getElementById('filterHari')) try{ window.filterJadwal && window.filterJadwal(); }catch(e){}
+          if(document.querySelector('[data-filter-program]')) try{ window.filterProgram && window.filterProgram(); }catch(e){}
+          if(document.getElementById('modalProgram')) try{ window.modalProgram && window.modalProgram(); }catch(e){}
+          if(document.querySelector('[data-periode]')) try{ window.gantiHarga && window.gantiHarga(); }catch(e){}
+          if(document.getElementById('formBmi')) try{ window.kalkulatorBMI && window.kalkulatorBMI(); }catch(e){}
+          if(document.getElementById('formGabung')) try{ window.validasiGabung && window.validasiGabung(); }catch(e){}
+          try{ window.accordionFaq && window.accordionFaq(); }catch(e){}
+          try{ if(document.getElementById('tahun')) window.isiTahun && window.isiTahun(); }catch(e){}
+        };
+        return orig.call(this, type, wrapped);
+      }
+      return orig.call(this, type, listener);
+    };
+  })();
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="bar-progres" id="barProgres"></div>
+<a href="#beranda" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-biru focus:px-3 focus:py-2 focus:text-white">Lompat ke program</a>
+<header class="fixed top-0 left-0 w-full z-50">
+  <div class="navbar">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="bg-biru text-white font-bold w-9 h-9 rounded flex items-center justify-center">F</span>
+        <span><span class="block font-bold text-lg leading-none">FitZone</span><span class="block text-xs text-Abu leading-none">Fitness Center</span></span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6" id="menuNavigasi">
+        <a href="index.html" class="link-nav aktif">Beranda</a>
+        <a href="index.html#fasilitas" class="link-nav">Fasilitas</a>
+        <a href="index.html#program" class="link-nav">Program</a>
+        <a href="trainers.html" class="link-nav">Trainer</a>
+        <a href="index.html#jadwal" class="link-nav">Jadwal</a>
+        <a href="gabung.html" class="link-nav">Membership</a>
+        <a href="bmi.html" class="link-nav">BMI</a>
+        <a href="index.html#faq" class="link-nav">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button type="button" id="tombolTema" class="tombol-tema" aria-label="Ganti mode gelap">
+          <svg class="ikon-bulan h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="ikon-matahari h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a href="gabung.html" class="tombol tombol-utama hidden sm:inline-block !py-2 !px-4 !text-sm">Gabung</a>
+        <button id="tombolMenu" type="button" class="md:hidden w-10 h-10 flex flex-col items-center justify-center border border-gray-300 rounded" aria-label="Buka menu" aria-expanded="false">
+          <span class="icon-menu"></span><span class="icon-menu"></span><span class="icon-menu"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="menu-mobile md:hidden" id="menuMobile">
+    <a href="index.html">Beranda</a>
+    <a href="index.html#fasilitas">Fasilitas</a>
+    <a href="index.html#program">Program</a>
+    <a href="trainers.html">Trainer</a>
+    <a href="index.html#jadwal">Jadwal</a>
+    <a href="gabung.html">Membership & Gabung</a>
+    <a href="bmi.html">Kalkulator BMI</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="gabung.html" class="tombol tombol-utama text-center mt-3 !py-2">Gabung Sekarang</a>
+  </div>
+</header>
+<main>
+<section id="beranda" class="bg-white pt-28 pb-16">
+  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <p class="inline-flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-semibold"><span class="titik-hidup"></span> Buka 24 Jam - Medan</p>
+      <h1 class="mt-5 text-4xl md:text-5xl font-bold text-gray-900 leading-tight">Bangun Tubuh<br>yang Lebih Kuat</h1>
+      <p class="mt-5 text-gray-600 leading-relaxed">FitZone adalah gym di Medan dengan 6 program latihan, 6 trainer bersertifikat, dan jadwal kelas yang fleksibel. Mulai dari awal, latihan bersama kami setiap hari.</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="gabung.html" class="tombol tombol-utama">Gabung Sekarang</a>
+        <a href="#program" class="tombol tombol-kedua">Lihat Program</a>
+      </div>
+      <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="text-center"><p class="text-2xl font-bold text-biru" data-hitung="1240" data-akhir="+">0</p><p class="text-xs text-gray-500 mt-1">Member Aktif</p></div>
+        <div class="text-center"><p class="text-2xl font-bold text-biru" data-hitung="6" data-akhir="">0</p><p class="text-xs text-gray-500 mt-1">Program</p></div>
+        <div class="text-center"><p class="text-2xl font-bold text-biru" data-hitung="24" data-akhir="/7">0</p><p class="text-xs text-gray-500 mt-1">Jam Buka</p></div>
+        <div class="text-center"><p class="text-2xl font-bold text-biru" data-hitung="49" data-desimal="1" data-akhir="/5">0</p><p class="text-xs text-gray-500 mt-1">Rating</p></div>
+      </div>
+    </div>
+    <div>
+      <img src="assets/img/hero.jpg" alt="Anggota FitZone sedang latihan beban" class="w-full h-80 object-cover rounded-lg border border-gray-200">
+      <div class="mt-3 bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center gap-3">
+        <div class="lingkaran-ikon">24</div>
+        <div><p class="text-sm font-semibold text-gray-800">Buka Setiap Hari</p><p class="text-xs text-gray-500">Senin sampai Minggu, 24 jam penuh</p></div>
+      </div>
+      <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+        <a href="trainers.html" class="border rounded-lg p-3 hover:border-biru hover:text-biru">Lihat Trainer →</a>
+        <a href="bmi.html" class="border rounded-lg p-3 hover:border-biru hover:text-biru">Cek BMI →</a>
+        <a href="gabung.html" class="border rounded-lg p-3 hover:border-biru hover:text-biru">Join Member →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="fasilitas" class="bg-white py-16">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <span class="label-kecil">Fasilitas</span>
+    <h2 class="judul-section mt-2">Area Latihan Lengkap</h2>
+    <p class="sub-judul-section mt-3">Area gym kami dirancang untuk mendukung performa latihan Anda.</p>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="kartu overflow-hidden"><div class="kartu-gambar"><img src="assets/img/fasilitas-beban.jpg" alt="Foto area cardio"></div><div class="p-4 font-bold text-gray-900">Area Cardio</div></div>
+      <div class="kartu overflow-hidden"><div class="kartu-gambar"><img src="assets/img/fasilitas-cardio.jpg" alt="Foto area beban"></div><div class="p-4 font-bold text-gray-900">Area Beban</div></div>
+      <div class="kartu overflow-hidden"><div class="kartu-gambar"><img src="assets/img/ww2.jpg" alt="Foto ruang ganti dan locker"></div><div class="p-4 font-bold text-gray-900">Ruang Ganti</div></div>
+      <div class="kartu overflow-hidden"><div class="kartu-gambar"><img src="assets/img/download1.jpg" alt="Foto sauna dan recovery area"></div><div class="p-4 font-bold text-gray-900">Sauna & Recovery</div></div>
+    </div>
+  </div>
+</section>
+<section id="program" class="bg-gray-50 py-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center">
+      <span class="label-kecil">Program Latihan</span>
+      <h2 class="judul-section mt-2">Enam Program untuk Semua Level</h2>
+      <p class="sub-judul-section mt-3 max-w-2xl mx-auto">Setiap program punya gerakan dan durasi yang jelas. Pilih yang paling sesuai dengan target latihan Anda.</p>
+    </div>
+    <div class="mt-7 flex flex-wrap justify-center gap-2">
+      <button type="button" class="tombol-filter aktif" data-filter-program="semua">Semua</button>
+      <button type="button" class="tombol-filter" data-filter-program="kekuatan">Kekuatan</button>
+      <button type="button" class="tombol-filter" data-filter-program="kardio">Kardio</button>
+      <button type="button" class="tombol-filter" data-filter-program="fleksibel">Fleksibel</button>
+    </div>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="daftarProgram">
+      <article class="kartu tampil-saat-scroll" data-kategori="kekuatan">
+        <div class="kartu-gambar"><img src="assets/img/prog-1.jpg" alt="Latihan beban dumbbell untuk program Strength Forge"></div>
+        <div class="p-5">
+          <div class="flex gap-2 flex-wrap"><span class="label label-biru">Kekuatan</span><span class="label label-abu">Pemula - Advanced</span></div>
+          <h3 class="mt-3 text-xl font-bold text-gray-900">Strength Forge</h3>
+          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Lima gerakan inti: squat, deadlift, bench press, row, dan shoulder press. Beban naik bertahap setiap minggu.</p>
+          <ul class="mt-4 text-sm text-gray-600 space-y-1">
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Durasi</span><span class="font-semibold text-gray-800">60 menit</span></li>
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Intensitas</span><span class="label label-abu">Tinggi</span></li>
+            <li class="flex justify-between"><span>Kuota</span><span class="font-semibold text-gray-800">20 orang</span></li>
+          </ul>
+          <button type="button" class="tombol tombol-kedua w-full mt-5 !py-2 detail-program" data-judul="Strength Forge" data-info="Kekuatan - 60 menit - Intensitas Tinggi" data-teks="Latihan beban dengan lima gerakan inti. Instruktur menyesuaikan beban sesuai kemampuan peserta. Tersedia konsultasi privat 10 menit sebelum mulai.">Lihat Detail</button>
+        </div>
+      </article>
+      <article class="kartu tampil-saat-scroll" data-kategori="kardio">
+        <div class="kartu-gambar"><img src="assets/img/prog-6.jpg" alt="Latihan kardio intens untuk program HIIT Turbo"></div>
+        <div class="p-5">
+          <div class="flex gap-2 flex-wrap"><span class="label label-biru">Kardio</span><span class="label label-abu">Semua Level</span></div>
+          <h3 class="mt-3 text-xl font-bold text-gray-900">HIIT Turbo</h3>
+          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Latihan interval 20 detik bergerak dan 40 detik istirahat, sebanyak 8 putaran. Metode Tabata untuk meningkatkan stamina.</p>
+          <ul class="mt-4 text-sm text-gray-600 space-y-1">
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Durasi</span><span class="font-semibold text-gray-800">45 menit</span></li>
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Intensitas</span><span class="label label-abu">Tinggi</span></li>
+            <li class="flex justify-between"><span>Kuota</span><span class="font-semibold text-gray-800">25 orang</span></li>
+          </ul>
+          <button type="button" class="tombol tombol-kedua w-full mt-5 !py-2 detail-program" data-judul="HIIT Turbo" data-info="Kardio - 45 menit - Intensitas Tinggi" data-teks="Kelas interval untuk meningkatkan daya tahan kardiovaskular. Tersedia versi low impact bagi peserta yang punya masalah pada lutut.">Lihat Detail</button>
+        </div>
+      </article>
+      <article class="kartu tampil-saat-scroll" data-kategori="fleksibel">
+        <div class="kartu-gambar"><img src="assets/img/prog-2.jpg" alt="Perangkat latihan untuk program CrossFit Blast"></div>
+        <div class="p-5">
+          <div class="flex gap-2 flex-wrap"><span class="label label-biru">Fleksibel</span><span class="label label-abu">Menengah - Advanced</span></div>
+          <h3 class="mt-3 text-xl font-bold text-gray-900">CrossFit Blast</h3>
+          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Latihan fungsional dengan kettlebell, wall ball, dan box jump. Melatih kekuatan, daya tahan, dan kelincahan sekaligus.</p>
+          <ul class="mt-4 text-sm text-gray-600 space-y-1">
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Durasi</span><span class="font-semibold text-gray-800">60 menit</span></li>
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Intensitas</span><span class="label label-abu">Sedang - Tinggi</span></li>
+            <li class="flex justify-between"><span>Kuota</span><span class="font-semibold text-gray-800">15 orang</span></li>
+          </ul>
+          <button type="button" class="tombol tombol-kedua w-full mt-5 !py-2 detail-program" data-judul="CrossFit Blast" data-info="Fleksibel - 60 menit - Intensitas Sedang - Tinggi" data-teks="Kelas lintas alat dengan pendekatan CrossFit. Instruktur menyesuaikan skala beban berdasarkan kondisi fisik setiap peserta.">Lihat Detail</button>
+        </div>
+      </article>
+      <article class="kartu tampil-saat-scroll" data-kategori="kekuatan">
+        <div class="kartu-gambar"><img src="assets/img/download12.jpg" alt="Latihan boxing untuk program Boxing Lab"></div>
+        <div class="p-5">
+          <div class="flex gap-2 flex-wrap"><span class="label label-biru">Kekuatan</span><span class="label label-abu">Combat</span></div>
+          <h3 class="mt-3 text-xl font-bold text-gray-900">Boxing Lab</h3>
+          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Kelas boxing: teknik kaki, jab cross hook, kombinasi pukulan, dan latihan bag. Perlengkapan latihan sudah tersedia.</p>
+          <ul class="mt-4 text-sm text-gray-600 space-y-1">
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Durasi</span><span class="font-semibold text-gray-800">90 menit</span></li>
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Intensitas</span><span class="label label-abu">Tinggi</span></li>
+            <li class="flex justify-between"><span>Kuota</span><span class="font-semibold text-gray-800">12 orang</span></li>
+          </ul>
+          <button type="button" class="tombol tombol-kedua w-full mt-5 !py-2 detail-program" data-judul="Boxing Lab" data-info="Combat - 90 menit - Intensitas Tinggi" data-teks="Kelas boxing untuk semua level dengan penekanan pada teknik, kelincahan kaki, dan kebugaran jasmani. Sarung tangan dan handuk disediakan.">Lihat Detail</button>
+        </div>
+      </article>
+      <article class="kartu tampil-saat-scroll" data-kategori="fleksibel">
+        <div class="kartu-gambar"><img src="assets/img/prog-5.jpg" alt="Latihan yoga untuk program Power Yoga"></div>
+        <div class="p-5">
+          <div class="flex gap-2 flex-wrap"><span class="label label-biru">Fleksibel</span><span class="label label-abu">Semua Level</span></div>
+          <h3 class="mt-3 text-xl font-bold text-gray-900">Power Yoga</h3>
+          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Yoga untuk melatih kelenturan sendi dan mengurangi ketegangan otot. Cocok untuk pemulihan tubuh setelah latihan berat.</p>
+          <ul class="mt-4 text-sm text-gray-600 space-y-1">
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Durasi</span><span class="font-semibold text-gray-800">60 menit</span></li>
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Intensitas</span><span class="label label-abu">Rendah - Sedang</span></li>
+            <li class="flex justify-between"><span>Kuota</span><span class="font-semibold text-gray-800">18 orang</span></li>
+          </ul>
+          <button type="button" class="tombol tombol-kedua w-full mt-5 !py-2 detail-program" data-judul="Power Yoga" data-info="Fleksibel - 60 menit - Intensitas Rendah - Sedang" data-teks="Kelas yoga untuk fleksibilitas, keseimbangan, dan pemulihan tubuh. Cocok untuk member yang ingin menjaga performa tetap prima.">Lihat Detail</button>
+        </div>
+      </article>
+      <article class="kartu tampil-saat-scroll" data-kategori="kardio">
+        <div class="kartu-gambar"><img src="assets/img/download21.jpg" alt="Latihan aerobik untuk program Spin and Ride"></div>
+        <div class="p-5">
+          <div class="flex gap-2 flex-wrap"><span class="label label-biru">Kardio</span><span class="label label-abu">Semua Level</span></div>
+          <h3 class="mt-3 text-xl font-bold text-gray-900">Spin &amp; Ride</h3>
+          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Latihan dengan sepeda studio, pencahayaan gelap, dan musik berenergi tinggi. Tersedia kelas sprint dan endurance.</p>
+          <ul class="mt-4 text-sm text-gray-600 space-y-1">
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Durasi</span><span class="font-semibold text-gray-800">45 menit</span></li>
+            <li class="flex justify-between border-b border-gray-100 pb-1"><span>Intensitas</span><span class="label label-abu">Sedang - Tinggi</span></li>
+            <li class="flex justify-between"><span>Kuota</span><span class="font-semibold text-gray-800">20 orang</span></li>
+          </ul>
+          <button type="button" class="tombol tombol-kedua w-full mt-5 !py-2 detail-program" data-judul="Spin and Ride" data-info="Endurance - 45 menit - Intensitas Sedang - Tinggi" data-teks="Kelas sepeda studio dengan instruktur berenergi tinggi. Tersedia kelas pagi, sore, dan paket 10 sesi untuk member reguler.">Lihat Detail</button>
+        </div>
+      </article>
+    </div>
+    <p id="programKosong" class="hidden text-center text-gray-500 mt-6">Tidak ada program pada kategori ini.</p>
+  </div>
+</section>
+<section id="jadwal" class="bg-white py-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center">
+      <span class="label-kecil">Jadwal Latihan</span>
+      <h2 class="judul-section mt-2">Jadwal Senin sampai Sabtu</h2>
+      <p class="sub-judul-section mt-3 max-w-2xl mx-auto">Gunakan tombol di bawah untuk melihat jadwal pada hari tertentu.</p>
+    </div>
+    <div class="mt-7 flex flex-wrap justify-center gap-2" id="filterHari">
+      <button type="button" class="tombol-filter aktif" data-hari="semua">Semua</button>
+      <button type="button" class="tombol-filter" data-hari="Senin">Senin</button>
+      <button type="button" class="tombol-filter" data-hari="Selasa">Selasa</button>
+      <button type="button" class="tombol-filter" data-hari="Rabu">Rabu</button>
+      <button type="button" class="tombol-filter" data-hari="Kamis">Kamis</button>
+      <button type="button" class="tombol-filter" data-hari="Jumat">Jumat</button>
+      <button type="button" class="tombol-filter" data-hari="Sabtu">Sabtu</button>
+    </div>
+    <p class="text-center text-sm text-gray-500 mt-4">Jumlah sesi ditampilkan: <span class="font-bold text-biru" id="jumlahSesi">18</span></p>
+    <div class="bungkus-tabel mt-5">
+      <table class="tabel">
+        <caption class="sr-only">Jadwal kelas FitZone dari Senin sampai Sabtu</caption>
+        <thead><tr><th>Hari</th><th>Waktu</th><th>Program</th><th>Trainer</th><th>Intensitas</th><th>Kuota</th></tr></thead>
+        <tbody id="isiJadwal">
+          <tr data-hari="Senin"><td><span class="label label-biru">Senin</span></td><td>06:00 - 07:00</td><td class="font-semibold">Strength Forge</td><td class="text-gray-600">Shofy alika</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">20 / 20</td></tr>
+          <tr data-hari="Senin"><td><span class="label label-biru">Senin</span></td><td>10:00 - 11:00</td><td class="font-semibold">HIIT Turbo</td><td class="text-gray-600">Hamdiyah alifia</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">25 / 25</td></tr>
+          <tr data-hari="Senin"><td><span class="label label-biru">Senin</span></td><td>17:30 - 19:00</td><td class="font-semibold">CrossFit Blast</td><td class="text-gray-600">Daffa naufaldi</td><td><span class="label label-abu">Sedang - Tinggi</span></td><td class="text-gray-500">11 / 15</td></tr>
+          <tr data-hari="Selasa"><td><span class="label label-biru">Selasa</span></td><td>06:30 - 07:15</td><td class="font-semibold">Spin &amp; Ride</td><td class="text-gray-600">Mutiara yuni</td><td><span class="label label-abu">Sedang</span></td><td class="text-gray-500">18 / 20</td></tr>
+          <tr data-hari="Selasa"><td><span class="label label-biru">Selasa</span></td><td>12:00 - 13:00</td><td class="font-semibold">Power Yoga</td><td class="text-gray-600">Ilham kurniansyah</td><td><span class="label label-abu">Rendah</span></td><td class="text-gray-500">14 / 18</td></tr>
+          <tr data-hari="Selasa"><td><span class="label label-biru">Selasa</span></td><td>18:30 - 20:00</td><td class="font-semibold">Boxing Lab</td><td class="text-gray-600">Ucingjim</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">12 / 12</td></tr>
+          <tr data-hari="Rabu"><td><span class="label label-biru">Rabu</span></td><td>06:00 - 07:00</td><td class="font-semibold">Strength Forge</td><td class="text-gray-600">Shofy alika</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">16 / 20</td></tr>
+          <tr data-hari="Rabu"><td><span class="label label-biru">Rabu</span></td><td>09:30 - 10:30</td><td class="font-semibold">Core &amp; Stability</td><td class="text-gray-600">Hamdiyah alifia</td><td><span class="label label-abu">Sedang</span></td><td class="text-gray-500">22 / 22</td></tr>
+          <tr data-hari="Rabu"><td><span class="label label-biru">Rabu</span></td><td>17:30 - 19:00</td><td class="font-semibold">CrossFit Blast</td><td class="text-gray-600">Daffa naufaldi</td><td><span class="label label-abu">Sedang - Tinggi</span></td><td class="text-gray-500">9 / 15</td></tr>
+          <tr data-hari="Kamis"><td><span class="label label-biru">Kamis</span></td><td>06:30 - 07:15</td><td class="font-semibold">Spin &amp; Ride</td><td class="text-gray-600">Mutiara yuni</td><td><span class="label label-abu">Sedang</span></td><td class="text-gray-500">20 / 20</td></tr>
+          <tr data-hari="Kamis"><td><span class="label label-biru">Kamis</span></td><td>16:00 - 17:00</td><td class="font-semibold">Mobility Flow</td><td class="text-gray-600">Ilham kurniansyah</td><td><span class="label label-abu">Rendah</span></td><td class="text-gray-500">8 / 18</td></tr>
+          <tr data-hari="Kamis"><td><span class="label label-biru">Kamis</span></td><td>19:00 - 20:30</td><td class="font-semibold">Boxing Lab</td><td class="text-gray-600">Ucingjim</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">7 / 12</td></tr>
+          <tr data-hari="Jumat"><td><span class="label label-biru">Jumat</span></td><td>06:00 - 07:00</td><td class="font-semibold">Strength Forge</td><td class="text-gray-600">Shofy alika</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">13 / 20</td></tr>
+          <tr data-hari="Jumat"><td><span class="label label-biru">Jumat</span></td><td>12:30 - 13:30</td><td class="font-semibold">HIIT Turbo</td><td class="text-gray-600">Hamdiyah alifia</td><td><span class="label label-abu">Tinggi</span></td><td class="text-gray-500">19 / 25</td></tr>
+          <tr data-hari="Jumat"><td><span class="label label-biru">Jumat</span></td><td>17:00 - 18:00</td><td class="font-semibold">Power Yoga</td><td class="text-gray-600">Ilham kurniansyah</td><td><span class="label label-abu">Rendah</span></td><td class="text-gray-500">11 / 18</td></tr>
+          <tr data-hari="Sabtu"><td><span class="label label-biru">Sabtu</span></td><td>08:00 - 09:30</td><td class="font-semibold">Community Circuit</td><td class="text-gray-600">Daffa naufaldi</td><td><span class="label label-abu">Sedang - Tinggi</span></td><td class="text-gray-500">30 / 30</td></tr>
+          <tr data-hari="Sabtu"><td><span class="label label-biru">Sabtu</span></td><td>10:00 - 11:00</td><td class="font-semibold">Boxing Basics</td><td class="text-gray-600">Ucingjim</td><td><span class="label label-abu">Sedang</span></td><td class="text-gray-500">6 / 15</td></tr>
+          <tr data-hari="Sabtu"><td><span class="label label-biru">Sabtu</span></td><td>15:00 - 16:00</td><td class="font-semibold">Recovery &amp; Stretch</td><td class="text-gray-600">Mutiara yuni</td><td><span class="label label-abu">Rendah</span></td><td class="text-gray-500">15 / 20</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="jadwalKosong" class="hidden text-center text-gray-500 mt-4">Tidak ada sesi pada hari ini.</p>
+  </div>
+</section>
+<section id="faq" class="bg-gray-50 py-16">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="text-center"><span class="label-kecil">Pertanyaan Umum</span><h2 class="judul-section mt-2">Frequently Asked Questions</h2><p class="sub-judul-section mt-3">Belum menemukan jawabannya? Datang langsung ke FitZone atau hubungi kami di 0812-3456-7890.</p></div>
+    <div class="mt-10" id="daftarFaq">
+      <div class="item-faq buka"><button type="button" class="tombol-faq"><span>Apakah perlu pengalaman sebelumnya untuk bergabung?</span><span class="tanda-plus"></span></button><div class="pesan-faq"><div class="isi-faq">Tidak. Semua program kami menerima peserta baru. Untuk paket Basic dan Premium, konsultan kami akan menyusun program penyesuaian selama dua sesi pertama.</div></div></div>
+      <div class="item-faq"><button type="button" class="tombol-faq"><span>Berapa lama masa berlaku membership?</span><span class="tanda-plus"></span></button><div class="pesan-faq"><div class="isi-faq">Masa berlaku mengikuti periode yang dipilih. Paket bulanan berlaku 30 hari sejak tanggal aktivasi, paket tahunan berlaku 365 hari. Membership dapat dibatalkan kapan saja.</div></div></div>
+      <div class="item-faq"><button type="button" class="tombol-faq"><span>Apakah jadwal kelas bisa dipindahkan?</span><span class="tanda-plus"></span></button><div class="pesan-faq"><div class="isi-faq">Bisa. Kelas yang sudah dipesan dapat dipindahkan maksimal 4 jam sebelum jadwal dimulai lewat concierge desk atau WhatsApp kami.</div></div></div>
+      <div class="item-faq"><button type="button" class="tombol-faq"><span>Apakah tersedia kelas untuk pemula?</span><span class="tanda-plus"></span></button><div class="pesan-faq"><div class="isi-faq">Pasti ada. Program Power Yoga dan HIIT Turbo memiliki versi low intensity khusus pemula. Sesi Community Circuit pada Sabtu pagi juga dirancang untuk peserta baru.</div></div></div>
+      <div class="item-faq"><button type="button" class="tombol-faq"><span>Apa saja yang termasuk dalam paket membership?</span><span class="tanda-plus"></span></button><div class="pesan-faq"><div class="isi-faq">Setiap paket sudah termasuk akses area cardio, area weights, dan loker. Handuk gym tersedia untuk paket Premium ke atas. Fasilitas sauna hanya untuk paket VIP.</div></div></div>
+      <div class="item-faq"><button type="button" class="tombol-faq"><span>Apakah tersedia parkir gratis?</span><span class="tanda-plus"></span></button><div class="pesan-faq"><div class="isi-faq">Tersedia area parkir gratis untuk member, dengan kapasitas 45 mobil dan 30 motor. Kami sarankan datang 15 menit sebelum sesi dimulai.</div></div></div>
+    </div>
+  </div>
+</section>
+<section class="bg-white py-10 border-t">
+  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-4 text-center">
+    <a href="trainers.html" class="kartu p-6 block hover:border-biru"><p class="font-bold text-gray-900">Tim Trainer →</p><p class="text-sm text-gray-600 mt-1">6 trainer bersertifikat, lihat profil & jadwal</p></a>
+    <a href="bmi.html" class="kartu p-6 block hover:border-biru"><p class="font-bold text-gray-900">Kalkulator BMI →</p><p class="text-sm text-gray-600 mt-1">Cek indeks massa tubuh & saran program</p></a>
+    <a href="gabung.html" class="kartu p-6 block hover:border-biru"><p class="font-bold text-gray-900">Join Member →</p><p class="text-sm text-gray-600 mt-1">3 paket membership & form pendaftaran</p></a>
+  </div>
+</section>
+</main>
+<footer class="bg-gray-900 text-gray-400 py-12">
+  <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div>
+      <div class="flex items-center gap-2"><span class="bg-biru text-white font-bold w-9 h-9 rounded flex items-center justify-center">F</span><span class="font-bold text-white text-lg">FitZone</span></div>
+      <p class="mt-4 text-sm leading-relaxed">Fitness center dengan pendekatan latihan yang terukur, terpandu, dan berkelanjutan.</p>
+    </div>
+    <nav><h4 class="text-white font-semibold text-sm uppercase tracking-wider">Navigasi</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="index.html" class="hover:text-white">Beranda</a></li><li><a href="index.html#program" class="hover:text-white">Program</a></li><li><a href="trainers.html" class="hover:text-white">Trainer</a></li><li><a href="index.html#jadwal" class="hover:text-white">Jadwal</a></li><li><a href="gabung.html" class="hover:text-white">Membership</a></li><li><a href="bmi.html" class="hover:text-white">Kalkulator BMI</a></li></ul></nav>
+    <div><h4 class="text-white font-semibold text-sm uppercase tracking-wider">Jam Operasional</h4><ul class="mt-4 space-y-2 text-sm"><li>Senin - Jumat: 05:00 - 23:00</li><li>Sabtu: 06:00 - 21:00</li><li>Minggu: 07:00 - 20:00</li><li class="text-blue-400">Area weights: 24 jam</li></ul></div>
+    <div><h4 class="text-white font-semibold text-sm uppercase tracking-wider">Kontak</h4><ul class="mt-4 space-y-2 text-sm"><li>Jl. Gatot Subroto No. 128</li><li>Medan, Sumatera Utara 20122</li><li>0812-3456-7890</li><li>hello@fitzone-medan.id</li></ul></div>
+  </div>
+  <p class="text-center text-xs text-gray-500 mt-8">&copy; <span id="tahun"></span> FitZone Medan. All rights reserved.</p>
+</footer>
+<button type="button" id="tombolAtas" class="fixed bottom-5 right-5 w-11 h-11 bg-biru text-white rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity z-40" aria-label="Kembali ke atas"><svg class="w-5 h-5 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div id="notifikasi" class="notifikasi"></div>
+<div id="modalProgram" class="modal"><div class="w-full max-w-lg p-5" id="latarModal"></div><div class="kotak-modal" id="kotakModal"><button type="button" class="tombol-tutup" id="tombolTutup" aria-label="Tutup">&times;</button><div class="p-6 border-b border-gray-200"><p class="text-xs font-bold text-biru" id="modalInfo"></p><h3 class="mt-1 text-2xl font-bold text-gray-900" id="modalJudul"></h3></div><div class="p-6"><p class="text-sm text-gray-600 leading-relaxed" id="modalTeks"></p><div class="mt-5 flex gap-2"><a href="gabung.html" class="tombol tombol-utama flex-1" id="tombolModalDaftar">Daftar Program Ini</a><button type="button" class="tombol tombol-kedua" id="tombolModalTutup">Tutup</button></div></div></div></div>
+<script src="js/script.js"></script>
+</body>
+</html>
