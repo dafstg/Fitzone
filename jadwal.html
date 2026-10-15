@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kelas FitZone</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+        }
+
+        .hari {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hari:hover,
+        .hari.aktif {
+            background: #2563eb;
+            color: white;
+        }
+
+        .kelas {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px #00000010;
+        }
+
+        .sembunyi {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="bg-slate-900 text-white p-5">
+        <h2 class="text-2xl font-bold">FitZone</h2>
+        <p>Jadwal Kelas Gym</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-3">
+            Jadwal Kelas FitZone
+        </h1>
+
+        <p class="text-center text-gray-600 mb-6">
+            Pilih hari untuk melihat jadwal kelas gym.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button class="hari aktif" data-hari="Semua">Semua</button>
+            <button class="hari" data-hari="Senin">Senin</button>
+            <button class="hari" data-hari="Selasa">Selasa</button>
+            <button class="hari" data-hari="Rabu">Rabu</button>
+            <button class="hari" data-hari="Kamis">Kamis</button>
+            <button class="hari" data-hari="Jumat">Jumat</button>
+            <button class="hari" data-hari="Sabtu">Sabtu</button>
+        </div>
+
+        <p class="text-center mb-4">
+            Jumlah kelas: <span id="jumlah">12</span>
+        </p>
+
+        <div id="daftarKelas">
+            <div class="kelas" data-hari="Senin">
+                <h3 class="text-xl font-bold">Morning Yoga</h3>
+                <p>Hari: Senin</p>
+                <p>Waktu: 08.00 - 09.00</p>
+                <p>Instruktur: Sarah</p>
+            </div>
+
+            <div class="kelas" data-hari="Senin">
+                <h3 class="text-xl font-bold">Strength Training</h3>
+                <p>Hari: Senin</p>
+                <p>Waktu: 17.00 - 18.00</p>
+                <p>Instruktur: Rudi</p>
+            </div>
+
+            <div class="kelas" data-hari="Selasa">
+                <h3 class="text-xl font-bold">Cardio Training</h3>
+                <p>Hari: Selasa</p>
+                <p>Waktu: 09.00 - 10.00</p>
+                <p>Instruktur: Andi</p>
+            </div>
+
+            <div class="kelas" data-hari="Selasa">
+                <h3 class="text-xl font-bold">Indoor Cycling</h3>
+                <p>Hari: Selasa</p>
+                <p>Waktu: 16.00 - 17.00</p>
+                <p>Instruktur: Nadia</p>
+            </div>
+
+            <div class="kelas" data-hari="Rabu">
+                <h3 class="text-xl font-bold">Zumba</h3>
+                <p>Hari: Rabu</p>
+                <p>Waktu: 08.00 - 09.00</p>
+                <p>Instruktur: Sarah</p>
+            </div>
+
+            <div class="kelas" data-hari="Rabu">
+                <h3 class="text-xl font-bold">Full Body Workout</h3>
+                <p>Hari: Rabu</p>
+                <p>Waktu: 17.00 - 18.00</p>
+                <p>Instruktur: Rudi</p>
+            </div>
+
+            <div class="kelas" data-hari="Kamis">
+                <h3 class="text-xl font-bold">Strength Training</h3>
+                <p>Hari: Kamis</p>
+                <p>Waktu: 08.00 - 09.00</p>
+                <p>Instruktur: Andi</p>
+            </div>
+
+            <div class="kelas" data-hari="Kamis">
+                <h3 class="text-xl font-bold">Indoor Cycling</h3>
+                <p>Hari: Kamis</p>
+                <p>Waktu: 16.00 - 17.00</p>
+                <p>Instruktur: Nadia</p>
+            </div>
+
+            <div class="kelas" data-hari="Jumat">
+                <h3 class="text-xl font-bold">Morning Yoga</h3>
+                <p>Hari: Jumat</p>
+                <p>Waktu: 07.00 - 08.00</p>
+                <p>Instruktur: Sarah</p>
+            </div>
+
+            <div class="kelas" data-hari="Jumat">
+                <h3 class="text-xl font-bold">Cardio Training</h3>
+                <p>Hari: Jumat</p>
+                <p>Waktu: 17.00 - 18.00</p>
+                <p>Instruktur: Rudi</p>
+            </div>
+
+            <div class="kelas" data-hari="Sabtu">
+                <h3 class="text-xl font-bold">Zumba</h3>
+                <p>Hari: Sabtu</p>
+                <p>Waktu: 08.00 - 09.00</p>
+                <p>Instruktur: Nadia</p>
+            </div>
+
+            <div class="kelas" data-hari="Sabtu">
+                <h3 class="text-xl font-bold">Full Body Workout</h3>
+                <p>Hari: Sabtu</p>
+                <p>Waktu: 10.00 - 11.00</p>
+                <p>Instruktur: Andi</p>
+            </div>
+        </div>
+
+        <p id="kosong" class="sembunyi text-center">
+            Tidak ada kelas pada hari ini.
+        </p>
+    </main>
+
+ <script src="jadwal.js"></script>
+</body>
+</html>
