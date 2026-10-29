@@ -1,0 +1,721 @@
+/* ==========================================================
+   CSS TAMBAHAN UNTUK WEBSITE FITZONE
+   Tailwind dipakai untuk layout, file ini untuk komponen
+   kecil, warna, dan animasi.
+
+   Semua warna memakai variabel CSS (--nama) supaya mode
+   gelap hanya perlu mengubah nilai variabelnya saja.
+   ========================================================== */
+
+/* ---------- 1. WARNA (LIGHT / GELAP) ---------- */
+:root {
+  --warna-latar: #f8fafc;
+  --warna-kartu: #ffffff;
+  --warna-alt: #f1f5f9;
+  --garis: #e5e7eb;
+  --garis-kuat: #d1d5db;
+  --teks: #1f2937;
+  --teks-gelap: #111827;
+  --teks-lembut: #6b7280;
+  --teks-pucat: #9ca3af;
+  --biru: #2563eb;
+  --biru-gelap: #1d4ed8;
+  --biru-muda: #eff6ff;
+  --hijau: #16a34a;
+  --hijau-muda: #dcfce7;
+  --hijau-teks: #15803d;
+  --footer-latar: #111827;
+  --footer-teks: #9ca3af;
+  --bayang: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Mode gelap: hanya nilai variabel yang berubah */
+.mode-gelap {
+  --warna-latar: #0f172a;
+  --warna-kartu: #1e293b;
+  --warna-alt: #172033;
+  --garis: #334155;
+  --garis-kuat: #475569;
+  --teks: #e2e8f0;
+  --teks-gelap: #f8fafc;
+  --teks-lembut: #94a3b8;
+  --teks-pucat: #64748b;
+  --biru: #60a5fa;
+  --biru-gelap: #3b82f6;
+  --biru-muda: #172554;
+  --hijau: #22c55e;
+  --hijau-muda: #14532d;
+  --hijau-teks: #4ade80;
+  --footer-latar: #020617;
+  --footer-teks: #94a3b8;
+  --bayang: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 2. DASAR ---------- */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--warna-latar);
+  color: var(--teks);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.judul-section {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--teks-gelap);
+}
+
+.sub-judul-section {
+  color: var(--teks-lembut);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.label-kecil {
+  display: inline-block;
+  color: var(--biru);
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Mengganti warna kelas Tailwind saat mode gelap aktif */
+.mode-gelap .bg-white { background-color: var(--warna-kartu); }
+.mode-gelap .bg-gray-50 { background-color: var(--warna-latar); }
+.mode-gelap .bg-gray-100 { background-color: var(--warna-alt); }
+.mode-gelap .bg-gray-900 { background-color: var(--footer-latar); }
+.mode-gelap .bg-blue-50 { background-color: var(--biru-muda); }
+.mode-gelap .bg-green-50 { background-color: var(--hijau-muda); }
+.mode-gelap .bg-green-100 { background-color: var(--hijau-muda); }
+.mode-gelap .border-gray-100,
+.mode-gelap .border-gray-200 { border-color: var(--garis); }
+.mode-gelap .border-gray-300 { border-color: var(--garis-kuat); }
+.mode-gelap .border-gray-800 { border-color: var(--garis); }
+.mode-gelap .text-gray-900,
+.mode-gelap .text-gray-800 { color: var(--teks-gelap); }
+.mode-gelap .text-gray-600,
+.mode-gelap .text-gray-500 { color: var(--teks-lembut); }
+.mode-gelap .text-gray-400 { color: var(--teks-pucat); }
+.mode-gelap .text-blue-600,
+.mode-gelap .text-blue-400,
+.mode-gelap .text-biru { color: var(--biru); }
+.mode-gelap .text-green-600,
+.mode-gelap .text-green-700 { color: var(--hijau-teks); }
+.mode-gelap .bg-biru { background-color: var(--biru); }
+.mode-gelap .hover\:bg-blue-700:hover { background-color: var(--biru-gelap); }
+
+/* ---------- 3. NAVBAR ---------- */
+.navbar {
+  background-color: var(--warna-kartu);
+  border-bottom: 1px solid var(--garis);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.link-nav {
+  color: var(--teks-lembut);
+  font-size: 0.9rem;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.link-nav:hover,
+.link-nav.aktif {
+  color: var(--biru);
+  border-bottom-color: var(--biru);
+}
+
+/* Tombol ganti tema */
+.tombol-tema {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--garis-kuat);
+  border-radius: 6px;
+  background-color: var(--warna-kartu);
+  color: var(--teks-lembut);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tombol-tema:hover {
+  border-color: var(--biru);
+  color: var(--biru);
+}
+
+/* Ikon matahari dan bulan */
+.ikon-matahari { display: none; }
+.mode-gelap .ikon-matahari { display: block; }
+.mode-gelap .ikon-bulan { display: none; }
+
+/* Bar progres di atas halaman */
+.bar-progres {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background-color: var(--biru);
+  width: 0%;
+  z-index: 60;
+}
+
+/* Tombol hamburger */
+.icon-menu {
+  width: 20px;
+  height: 2px;
+  background-color: var(--teks);
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+.menu-terbuka .icon-menu:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-terbuka .icon-menu:nth-child(2) { opacity: 0; }
+.menu-terbuka .icon-menu:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Menu mobile */
+.menu-mobile {
+  display: none;
+  background-color: var(--warna-kartu);
+  border-bottom: 1px solid var(--garis);
+  padding: 10px 0;
+}
+
+.menu-mobile.buka { display: block; }
+
+.menu-mobile a {
+  display: block;
+  padding: 10px 0;
+  color: var(--teks);
+  border-bottom: 1px solid var(--garis);
+  font-size: 0.9rem;
+}
+
+/* ---------- 4. TOMBOL ---------- */
+.tombol {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.tombol-utama {
+  background-color: var(--biru);
+  color: #ffffff;
+}
+
+.tombol-utama:hover { background-color: var(--biru-gelap); }
+
+/* Di mode gelap tombol biru jadi terang, jadi teksnya digelapkan */
+.mode-gelap .tombol-utama,
+.mode-gelap .tombol-filter.aktif,
+.mode-gelap .label-populer { color: #0f172a; }
+
+.mode-gelap .tombol-utama:hover { background-color: var(--biru); }
+
+.tombol-kedua {
+  background-color: var(--warna-kartu);
+  color: var(--teks);
+  border-color: var(--garis-kuat);
+}
+
+.tombol-kedua:hover {
+  border-color: var(--biru);
+  color: var(--biru);
+}
+
+/* ---------- 5. KARTU ---------- */
+.kartu {
+  background-color: var(--warna-kartu);
+  border: 1px solid var(--garis);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+/* Animasi saat kursor diarahkan ke kartu */
+.kartu:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--bayang);
+  border-color: var(--biru);
+}
+
+.kartu-gambar {
+  height: 200px;
+  overflow: hidden;
+}
+
+.kartu-gambar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s;
+}
+
+.kartu:hover .kartu-gambar img { transform: scale(1.06); }
+
+/* Kartu trainer */
+.kartu-trainer {
+  background-color: var(--warna-kartu);
+  border: 1px solid var(--garis);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.kartu-trainer:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--bayang);
+}
+
+.gambar-trainer {
+  height: 260px;
+  overflow: hidden;
+}
+
+.gambar-trainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- 6. LABEL ---------- */
+.label {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: bold;
+}
+
+.label-biru { background-color: var(--biru-muda); color: var(--biru); }
+.label-hijau { background-color: var(--hijau-muda); color: var(--hijau-teks); }
+.label-abu { background-color: var(--warna-alt); color: var(--teks-lembut); }
+
+/* ---------- 7. TABEL JADWAL ---------- */
+.bungkus-tabel {
+  overflow-x: auto;
+  border: 1px solid var(--garis);
+  border-radius: 8px;
+  background-color: var(--warna-kartu);
+}
+
+.tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.tabel thead th {
+  background-color: var(--warna-alt);
+  color: var(--teks-gelap);
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--garis);
+}
+
+.tabel tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--garis);
+}
+
+.tabel tbody tr:nth-child(even) { background-color: var(--warna-alt); }
+.tabel tbody tr:hover { background-color: var(--biru-muda); }
+
+/* Baris disembunyikan saat filter hari */
+.tabel tbody tr.sembunyi { display: none; }
+
+.tabel tbody tr { animation: munculNaik 0.4s ease; }
+
+@keyframes munculNaik {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- 8. TOMBOL FILTER ---------- */
+.tombol-filter {
+  padding: 7px 16px;
+  border: 1px solid var(--garis-kuat);
+  background-color: var(--warna-kartu);
+  color: var(--teks-lembut);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tombol-filter:hover {
+  border-color: var(--biru);
+  color: var(--biru);
+}
+
+.tombol-filter.aktif {
+  background-color: var(--biru);
+  border-color: var(--biru);
+  color: #ffffff;
+}
+
+/* ---------- 9. MEMBERSHIP ---------- */
+.paket {
+  background-color: var(--warna-kartu);
+  border: 2px solid var(--garis);
+  border-radius: 10px;
+  padding: 26px;
+  transition: 0.3s;
+}
+
+.paket:hover {
+  border-color: var(--biru);
+  transform: translateY(-5px);
+}
+
+.paket.populer {
+  border-color: var(--biru);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+}
+
+.mode-gelap .paket.populer {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.label-populer {
+  background-color: var(--biru);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: bold;
+  padding: 3px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.harga {
+  font-size: 2.1rem;
+  font-weight: bold;
+  color: var(--teks-gelap);
+  transition: 0.2s;
+}
+
+.harga.ganti {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.daftar-wilai {
+  color: var(--teks-lembut);
+  font-size: 0.86rem;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--garis);
+}
+
+.daftar-wilai::before {
+  content: "\2713";
+  color: var(--hijau);
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.daftar-wilai.tidak {
+  color: var(--teks-pucat);
+  text-decoration: line-through;
+}
+
+.daftar-wilai.tidak::before {
+  content: "\2715";
+  color: var(--teks-pucat);
+}
+
+/* ---------- 10. KALKULATOR BMI ---------- */
+.kotak-bmi {
+  background-color: var(--warna-kartu);
+  border: 1px solid var(--garis);
+  border-radius: 10px;
+  padding: 26px;
+}
+
+.hasil-bmi {
+  background-color: var(--warna-latar);
+  border: 1px solid var(--garis);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.jarum {
+  transform-origin: 100px 100px;
+  transform: rotate(-90deg);
+  transition: transform 0.6s ease;
+}
+
+/* Jarum mengikuti warna teks, supaya terlihat di mode gelap */
+.jarum line { stroke: var(--teks-gelap); }
+
+.bar-skala {
+  display: flex;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bar-skala div { flex: 1; }
+
+.penanda {
+  position: absolute;
+  top: -4px;
+  width: 3px;
+  height: 20px;
+  background-color: var(--teks-gelap);
+  transition: left 0.6s ease;
+}
+
+/* ---------- 11. FORM ---------- */
+.label-form {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: bold;
+  color: var(--teks);
+  margin-bottom: 6px;
+}
+
+.input-form {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--garis-kuat);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: var(--warna-kartu);
+  color: var(--teks);
+  transition: 0.2s;
+}
+
+.input-form::placeholder { color: var(--teks-pucat); }
+
+.input-form:focus {
+  outline: none;
+  border-color: var(--biru);
+  box-shadow: 0 0 0 3px var(--biru-muda);
+}
+
+.pesan-error {
+  display: none;
+  color: #dc2626;
+  font-size: 0.78rem;
+  margin-top: 5px;
+}
+
+/* Kolom isian yang salah diisi */
+.baris-input.error .input-form {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.mode-gelap .baris-input.error .input-form { background-color: #7f1d1d; }
+
+.baris-input.error .pesan-error { display: block; }
+
+/* ---------- 12. FAQ ---------- */
+.item-faq {
+  background-color: var(--warna-kartu);
+  border: 1px solid var(--garis);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.item-faq.buka { border-color: var(--biru); }
+
+.tombol-faq {
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: var(--teks);
+  background-color: var(--warna-kartu);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tombol-faq:hover { color: var(--biru); }
+
+.pesan-faq {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background-color: var(--warna-kartu);
+}
+
+.isi-faq {
+  padding: 0 18px 16px;
+  color: var(--teks-lembut);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.tanda-plus {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--garis-kuat);
+  border-radius: 4px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.tanda-plus::before,
+.tanda-plus::after {
+  content: "";
+  position: absolute;
+  background-color: var(--teks-lembut);
+  transition: 0.3s;
+}
+
+.tanda-plus::before { width: 10px; height: 2px; top: 10px; left: 6px; }
+.tanda-plus::after { width: 2px; height: 10px; top: 6px; left: 10px; }
+
+.item-faq.buka .tanda-plus {
+  background-color: var(--biru);
+  border-color: var(--biru);
+  transform: rotate(135deg);
+}
+
+.item-faq.buka .tanda-plus::before,
+.item-faq.buka .tanda-plus::after { background-color: #ffffff; }
+
+/* ---------- 13. MODAL ---------- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 70;
+}
+
+.modal.buka {
+  display: flex;
+  animation: masuk 0.25s ease;
+}
+
+@keyframes masuk {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.kotak-modal {
+  background-color: var(--warna-kartu);
+  border-radius: 10px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  animation: naik 0.3s ease;
+}
+
+@keyframes naik {
+  from { transform: translateY(20px); }
+  to { transform: none; }
+}
+
+.tombol-tutup {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--garis);
+  border-radius: 6px;
+  background-color: var(--warna-kartu);
+  color: var(--teks-lembut);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tombol-tutup:hover {
+  background-color: var(--biru);
+  color: #ffffff;
+  border-color: var(--biru);
+}
+
+/* ---------- 14. ANIMASI MUNCUL SAAT SCROLL ---------- */
+.tampil-saat-scroll { opacity: 0; }
+.tampil-saat-scroll.tampil { animation: munculNaik 0.6s ease forwards; }
+
+/* ---------- 15. NOTIFIKASI ---------- */
+.notifikasi {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150%);
+  background-color: var(--teks-gelap);
+  color: var(--warna-kartu);
+  padding: 12px 22px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  z-index: 80;
+  transition: transform 0.4s ease;
+  max-width: 90%;
+  text-align: center;
+}
+
+.notifikasi.tampil { transform: translateX(-50%) translateY(0); }
+
+/* Titik berdenyut di navbar */
+.titik-hidup {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--hijau);
+  animation: denyut 1.5s infinite;
+}
+
+@keyframes denyut {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.lingkaran-ikon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--biru-muda);
+  color: var(--biru);
+  font-weight: bold;
+}
+
+/* ---------- 16. RESPONSIF ---------- */
+@media (max-width: 768px) {
+  .judul-section { font-size: 1.5rem; }
+  .tabel { min-width: 640px; }
+  .gambar-trainer { height: 300px; }
+}
+
+/* Menghormati pengaturan pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .tampil-saat-scroll { opacity: 1; }
+}
